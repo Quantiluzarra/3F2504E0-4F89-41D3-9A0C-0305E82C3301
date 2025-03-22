@@ -3,88 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI GPT-2</title>
-    <style>
-        body {font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f0f0f0;}
-        .chat {height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: white;}
-        .msg {margin: 5px 0; padding: 8px 12px; border-radius: 10px; max-width: 80%;}
-        .user {background: #e3f2fd; margin-left: auto;}
-        .ai {background: #f5f5f5; margin-right: auto;}
-        input {padding: 10px; border: 1px solid #ddd; border-radius: 20px; flex: 1; margin-right: 5px;}
-        button {padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 20px; cursor: pointer;}
-    </style>
+    <title>Угадай слово</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>AI Чат</h1>
-    <div class="chat" id="chat"></div>
-    <div style="display: flex; gap: 10px;">
-        <input type="text" id="input" placeholder="Введите сообщение...">
-        <button onclick="send()">Спросить</button>
+    <div class="container">
+        <h1>Угадай слово</h1>
+        <div id="definition" class="definition-box"></div>
+        <input type="text" id="answer" placeholder="Ваш ответ">
+        <button id="check">Проверить</button>
+        <div id="result" class="result-box"></div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@dqbd/tiktoken/lite@1.5.0/dist/tiktoken.min.js"></script>
-    <script>
-        let model, tokenizer, context = [];
-
-        async function init() {
-            await load();
-            tokenizer = tokenizer('cl100k_base');
-            model = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/gpt2_mini/model.json');
-        }
-
-        async function generate(prompt) {
-            const encoded = tokenizer.encode(prompt);
-            const input = tf.tensor2d([encoded], [1, encoded.length]);
-            let response = [];
-
-            for (let i = 0; i < 100; i++) {
-                const logits = model.predict(input);
-                const probs = tf.nn.softmax(logits);
-                const token = sampleToken(probs);
-                response.push(token);
-                input = tf.concat([input, tf.tensor2d([[token]], [1, 1])], 1);
-                if (token === 50256) break;
-                await tf.nextFrame();
-            }
-
-            tf.dispose([logits, probs]);
-            return tokenizer.decode(response);
-        }
-
-        function sampleToken(probs) {
-            const data = probs.dataSync();
-            const sum = data.reduce((a, b) => a + b, 0);
-            const r = Math.random() * sum;
-            let cumulative = 0;
-            for (let i = 0; i < data.length; i++) {
-                cumulative += data[i];
-                if (cumulative > r) return i;
-            }
-            return data.length - 1;
-        }
-
-        async function send() {
-            const input = document.getElementById('input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            input.value = '';
-            addMessage(text, true);
-            const response = await generate(text);
-            addMessage(response, false);
-        }
-
-        function addMessage(text, isUser) {
-            const chat = document.getElementById('chat');
-            const div = document.createElement('div');
-            div.className = `msg ${isUser ? 'user' : 'ai'}`;
-            div.textContent = text;
-            chat.appendChild(div);
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        init();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
