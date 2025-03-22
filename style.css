@@ -1,0 +1,123 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    animation: slideIn 0.8s ease-out;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.definition-box {
+    margin: 20px 0;
+    font-size: 1.2rem;
+    color: #34495e;
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 10px;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s;
+}
+
+#answer {
+    padding: 12px;
+    width: 80%;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#answer:focus {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+#check {
+    padding: 12px 30px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#check:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+.result-box {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.result-box.show {
+    opacity: 1;
+}
+
+/* Анимации */
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    .definition-box {
+        font-size: 1rem;
+    }
+    #answer {
+        width: 90%;
+    }
+    #check {
+        padding: 10px 20px;
+    }
+}
