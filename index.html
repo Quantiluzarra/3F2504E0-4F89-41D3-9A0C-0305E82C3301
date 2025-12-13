@@ -32,12 +32,12 @@
     overflow:hidden;
   }
 
-  /* Infinite animated background */
+  /* Infinite animated background (fat but clean) */
   body::before{
     content:"";
     position: fixed;
     inset:-20%;
-    z-index:-3;
+    z-index:-2;
     background:
       radial-gradient(820px 620px at 12% 15%, rgba(110,123,255,.34), transparent 62%),
       radial-gradient(820px 620px at 88% 20%, rgba(32,210,162,.22), transparent 64%),
@@ -57,7 +57,7 @@
     content:"";
     position: fixed;
     inset:0;
-    z-index:-2;
+    z-index:-1;
     opacity:.26;
     background-image:
       repeating-linear-gradient( 90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 44px),
@@ -73,7 +73,6 @@
     to{ background-position: -1200px 0, 0 -900px, 700px 300px; }
   }
 
-  /* Reduced motion */
   @media (prefers-reduced-motion: reduce){
     body::before, body::after{ animation:none !important; }
   }
@@ -108,13 +107,16 @@
     justify-content:space-between;
     gap:12px;
   }
-  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+  }
   .logo{
     width: 36px; height: 36px;
     border-radius: 14px;
     background: conic-gradient(from 180deg, var(--a1), var(--a2), var(--a3), var(--a1));
     box-shadow: 0 0 0 3px rgba(255,255,255,.06), 0 20px 60px rgba(110,123,255,.18);
-    position:relative; overflow:hidden;
+    position:relative;
+    overflow:hidden;
   }
   .logo::after{
     content:"";
@@ -141,8 +143,11 @@
     font-size: 12px;
     color: var(--muted);
   }
+
   .pBody{ padding: 12px 14px 14px; display:grid; gap:10px; }
   .row{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .row1{ display:grid; grid-template-columns: 1fr; gap:10px; }
+
   .field{
     border: 1px solid rgba(255,255,255,.12);
     background: rgba(255,255,255,.04);
@@ -170,8 +175,15 @@
     background: transparent;
     padding: 0;
   }
+  select, button{
+    font-family: inherit;
+  }
 
-  .btnRow{ display:flex; gap:10px; flex-wrap:wrap; }
+  .btnRow{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
   .btn{
     border: 1px solid rgba(110,123,255,.45);
     background: rgba(110,123,255,.14);
@@ -193,8 +205,12 @@
     color: var(--muted);
   }
   .btn.ghost:hover{ background: rgba(255,255,255,.06); color: var(--text); border-color: rgba(255,255,255,.20); }
-
-  .toggle{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .toggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
   .sw{
     width: 44px; height: 26px;
     border-radius: 999px;
@@ -249,49 +265,15 @@
     border-radius: 14px;
     background: #0b0f17;
     box-shadow: 0 26px 80px rgba(0,0,0,.55);
-    touch-action: none;
+    touch-action: none; /* important for pointer drawing */
   }
-
-  /* Developer channel link (bottom-left) */
-  .devlink{
-    position: fixed;
-    left: 14px;
-    bottom: 14px;
-    z-index: 40;
-    font-family: "Trebuchet MS", var(--sans);
-    font-size: 13px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    padding: 10px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.14);
-    background: rgba(10,14,22,.55);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 18px 55px rgba(0,0,0,.35);
-    color: rgba(245,250,255,.92);
-    text-decoration: none;
-    user-select:none;
-    overflow:hidden;
-  }
-  .devlink::before{
-    content:"";
+  #gridOverlay{
     position:absolute;
-    inset:-60%;
-    background: conic-gradient(from 180deg, rgba(110,123,255,.45), rgba(32,210,162,.35), rgba(255,92,173,.35), rgba(110,123,255,.45));
-    filter: blur(16px);
-    opacity:.55;
-    animation: devGlow 2.6s var(--ease) infinite alternate;
+    inset:0;
     pointer-events:none;
+    background: transparent;
   }
-  .devlink span{ position:relative; }
-  @keyframes devGlow{
-    from{ transform: translate3d(-2%, -2%, 0); opacity:.42; }
-    to{ transform: translate3d(2%, 2%, 0); opacity:.62; }
-  }
-  .devlink:hover{ border-color: rgba(32,210,162,.35); transform: translateY(-1px); }
-  .devlink:active{ transform: translateY(0); }
 
-  /* Toast */
   .toast{
     position: fixed;
     right: 14px;
@@ -314,229 +296,11 @@
   .toast .t1{ font-size: 13px; }
   .toast .t2{ margin-top: 6px; font-family: var(--mono); font-size: 12px; color: rgba(190,205,223,.70); }
 
-  /* ====== LOADER ====== */
-  .loader{
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    display:grid;
-    place-items:center;
-    background:
-      radial-gradient(900px 650px at 15% 20%, rgba(110,123,255,.26), transparent 62%),
-      radial-gradient(900px 650px at 85% 25%, rgba(32,210,162,.18), transparent 64%),
-      radial-gradient(900px 650px at 50% 90%, rgba(255,92,173,.14), transparent 62%),
-      rgba(0,0,0,.82);
-    backdrop-filter: blur(10px);
-    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
-  }
-  .loader.hide{
-    opacity: 0;
-    pointer-events:none;
-    transform: scale(1.02);
-  }
-
-  .loadCard{
-    width: min(720px, calc(100vw - 34px));
-    border-radius: 26px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(10,14,22,.55);
-    box-shadow: 0 40px 150px rgba(0,0,0,.65);
-    backdrop-filter: blur(16px);
-    padding: 18px 16px 14px;
-    position: relative;
-    overflow:hidden;
-  }
-  .loadCard::before{
-    content:"";
-    position:absolute;
-    inset:-80%;
-    background: conic-gradient(from 180deg, rgba(110,123,255,.55), rgba(32,210,162,.45), rgba(255,92,173,.45), rgba(110,123,255,.55));
-    filter: blur(26px);
-    opacity:.55;
-    animation: loadAura 3.4s var(--ease) infinite alternate;
-  }
-  @keyframes loadAura{
-    from{ transform: translate3d(-2%, -2%, 0); opacity:.38; }
-    to{ transform: translate3d(2%, 2%, 0); opacity:.64; }
-  }
-
-  .loadTop{
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .loadBrand{
-    display:flex; align-items:center; gap:12px;
-  }
-  .loadMark{
-    width: 44px; height: 44px;
-    border-radius: 16px;
-    background: conic-gradient(from 180deg, var(--a1), var(--a2), var(--a3), var(--a1));
-    box-shadow: 0 0 0 3px rgba(255,255,255,.06), 0 26px 85px rgba(110,123,255,.20);
-    position:relative; overflow:hidden;
-  }
-  .loadMark::after{
-    content:"";
-    position:absolute; inset:-70%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), transparent 55%);
-    animation: sheen 2.6s var(--ease) infinite;
-  }
-
-  .loadTitle{
-    margin:0;
-    font-size: 14px;
-    letter-spacing: 3.2px;
-    text-transform: uppercase;
-  }
-  .loadSub{
-    margin-top: 4px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: rgba(190,205,223,.72);
-  }
-
-  .ring{
-    width: 62px; height: 62px;
-    position:relative;
-    flex: 0 0 auto;
-    filter: drop-shadow(0 18px 55px rgba(0,0,0,.35));
-  }
-  .ring svg{
-    width: 62px; height: 62px;
-    transform: rotate(-90deg);
-    display:block;
-  }
-  .ring .bg{
-    stroke: rgba(255,255,255,.12);
-  }
-  .ring .fg{
-    stroke: url(#grad);
-    stroke-linecap: round;
-    stroke-dasharray: 188.4;
-    stroke-dashoffset: 188.4;
-    animation: ringProg 6.8s linear forwards;
-  }
-  @keyframes ringProg{ to{ stroke-dashoffset: 0; } }
-
-  .bar{
-    position:relative;
-    margin-top: 14px;
-    height: 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(255,255,255,.04);
-    overflow:hidden;
-  }
-  .bar > i{
-    display:block;
-    height:100%;
-    width: 0%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(110,123,255,.95), rgba(32,210,162,.95), rgba(255,92,173,.95));
-    box-shadow:
-      0 0 18px rgba(110,123,255,.30),
-      0 0 22px rgba(32,210,162,.18),
-      0 0 22px rgba(255,92,173,.14);
-    animation: barProg 6.8s linear forwards;
-  }
-  @keyframes barProg{ to{ width: 100%; } }
-
-  .bar::after{
-    content:"";
-    position:absolute;
-    inset:-60% -30%;
-    background: radial-gradient(circle at 30% 40%, rgba(255,255,255,.22), transparent 55%);
-    transform: rotate(10deg);
-    animation: barSheen 1.6s var(--ease) infinite;
-    opacity:.55;
-    pointer-events:none;
-  }
-  @keyframes barSheen{
-    0%{ transform: translate3d(-30%, -12%, 0) rotate(10deg); }
-    50%{ transform: translate3d(30%, 12%, 0) rotate(18deg); }
-    100%{ transform: translate3d(-30%, -12%, 0) rotate(10deg); }
-  }
-
-  .loadFoot{
-    position:relative;
-    margin-top: 10px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .pct{
-    font-family: var(--mono);
-    font-size: 12px;
-    color: rgba(190,205,223,.75);
-  }
-  .skip{
-    border: 1px solid rgba(255,255,255,.14);
-    background: rgba(255,255,255,.04);
-    color: rgba(245,250,255,.86);
-    padding: 9px 11px;
-    border-radius: 999px;
-    cursor:pointer;
-    font-size: 12px;
-    font-family: var(--mono);
-    display:none;
-  }
-  .skip.show{ display:inline-flex; }
-
-  /* Reduced motion for loader too */
-  @media (prefers-reduced-motion: reduce){
-    .loadCard::before, .bar::after, .ring .fg, .bar > i{ animation:none !important; }
-  }
 </style>
 </head>
 
 <body>
-
-  <!-- Loader overlay -->
-  <div class="loader" id="loader" aria-label="Loading">
-    <div class="loadCard">
-      <div class="loadTop">
-        <div class="loadBrand">
-          <div class="loadMark" aria-hidden="true"></div>
-          <div>
-            <h2 class="loadTitle">MULTICOLOR SQUARE</h2>
-            <div class="loadSub">initializing canvas • shaders • grid</div>
-          </div>
-        </div>
-
-        <div class="ring" aria-hidden="true">
-          <svg viewBox="0 0 72 72" fill="none">
-            <defs>
-              <linearGradient id="grad" x1="0" y1="0" x2="72" y2="72">
-                <stop offset="0" stop-color="#6E7BFF"/>
-                <stop offset="0.55" stop-color="#20D2A2"/>
-                <stop offset="1" stop-color="#FF5CAD"/>
-              </linearGradient>
-            </defs>
-            <circle class="bg" cx="36" cy="36" r="30" stroke-width="6"/>
-            <circle class="fg" cx="36" cy="36" r="30" stroke-width="6"/>
-          </svg>
-        </div>
-      </div>
-
-      <div class="bar" aria-hidden="true"><i></i></div>
-
-      <div class="loadFoot">
-        <div class="pct" id="pct">0%</div>
-        <button class="skip" id="skip" type="button">SKIP</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Developer channel (bottom-left) -->
-  <a class="devlink" href="https://t.me/imertinros" target="_blank" rel="noopener noreferrer">
-    <span>Developer channel</span>
-  </a>
-
-  <div class="app" id="app" style="visibility:hidden;">
+  <div class="app">
     <!-- Left: settings -->
     <aside class="panel" aria-label="Settings">
       <div class="pHead">
@@ -628,44 +392,6 @@
   const $ = (s, r=document) => r.querySelector(s);
   const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 
-  // ===== Loader (long + real animation) =====
-  const loader = $('#loader');
-  const app = $('#app');
-  const pctEl = $('#pct');
-  const skipBtn = $('#skip');
-
-  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const LOAD_MS = prefersReduce ? 900 : 6800;   // long loading by default
-  const SKIP_AFTER = prefersReduce ? 0 : 2400;  // show skip after a bit
-
-  let start = performance.now();
-  let raf = 0;
-
-  function tick(t){
-    const p = clamp((t - start) / LOAD_MS, 0, 1);
-    const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-    const shown = Math.floor(eased * 100);
-    pctEl.textContent = shown + '%';
-    if(p < 1){
-      raf = requestAnimationFrame(tick);
-    }else{
-      finishLoader();
-    }
-  }
-
-  function finishLoader(){
-    cancelAnimationFrame(raf);
-    app.style.visibility = 'visible';
-    loader.classList.add('hide');
-    setTimeout(()=> loader.remove(), 900);
-  }
-
-  setTimeout(() => skipBtn.classList.add('show'), SKIP_AFTER);
-  skipBtn.addEventListener('click', finishLoader);
-
-  requestAnimationFrame(tick);
-
-  // ===== Painting app (same core as before) =====
   const canvas = $('#paint');
   const ctx = canvas.getContext('2d', { alpha: false });
   const gridCanvas = $('#gridOverlay');
@@ -707,21 +433,24 @@
     toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 2200);
   }
 
-  let N = +gridSlider.value;
-  let brush = +brushSlider.value;
-  let zoom = +zoomSlider.value / 100;
+  // state
+  let N = +gridSlider.value;           // grid count (NxN)
+  let brush = +brushSlider.value;      // brush size in cells
+  let zoom = +zoomSlider.value / 100;  // visual zoom
   let showGrid = true;
   let rainbow = false;
   let eraser = false;
 
-  const BG = 0x0b0f17;
-  let pixels = new Uint32Array(N*N);
+  const BG = 0x0b0f17; // background color in RGB (same as canvas CSS)
+  let pixels = new Uint32Array(N*N); // store as 0xRRGGBB
   pixels.fill(BG);
 
+  // undo/redo: each action = { idxs:[], prev:[], next:[] }
   const undo = [];
   const redo = [];
   const MAX_STACK = 60;
 
+  // pointer draw
   let drawing = false;
   let lastCell = -1;
   let currentAction = null;
@@ -731,7 +460,11 @@
     const v = parseInt(s, 16);
     return v & 0xFFFFFF;
   }
+  function rgbIntToHex(v){
+    return '#' + (v >>> 0).toString(16).padStart(6,'0').toUpperCase();
+  }
   function hslToRgbInt(h, s, l){
+    // h [0..360), s,l [0..1]
     h = ((h % 360) + 360) % 360;
     const c = (1 - Math.abs(2*l - 1)) * s;
     const x = c * (1 - Math.abs(((h/60) % 2) - 1));
@@ -749,7 +482,9 @@
     return (R<<16) | (G<<8) | B;
   }
 
-  function setSwitch(sw, on){ sw.classList.toggle('on', !!on); }
+  function setSwitch(sw, on){
+    sw.classList.toggle('on', !!on);
+  }
 
   function updateUI(){
     gridVal.textContent = String(N);
@@ -764,6 +499,7 @@
   function calcCanvasSize(){
     const stage = document.querySelector('.stage');
     const r = stage.getBoundingClientRect();
+    // keep square, leave padding
     const pad = 26;
     const size = Math.max(280, Math.min(r.width - pad, r.height - pad));
     return Math.floor(size);
@@ -773,6 +509,7 @@
     const size = calcCanvasSize();
     const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
 
+    // internal resolution = size*dpr, but we draw cells onto it exactly
     canvas.width = Math.floor(size * dpr);
     canvas.height = Math.floor(size * dpr);
     canvas.style.width = size + 'px';
@@ -791,13 +528,21 @@
     drawGrid();
   }
 
+  function cellSizePx(){
+    // in CSS pixels
+    const size = parseFloat(canvas.style.width) || 600;
+    return size / N;
+  }
+
   function drawAll(){
     const size = parseFloat(canvas.style.width) || 600;
     const cs = size / N;
 
+    // Fill background fast
     ctx.fillStyle = '#' + BG.toString(16).padStart(6,'0');
     ctx.fillRect(0,0,size,size);
 
+    // Draw cells
     for(let y=0;y<N;y++){
       for(let x=0;x<N;x++){
         const idx = y*N + x;
@@ -820,6 +565,7 @@
     gctx.lineWidth = 1;
     gctx.strokeStyle = 'rgba(255,255,255,.10)';
 
+    // avoid heavy grid for huge N: draw every 2 or 4 lines
     let step = 1;
     if(N >= 96) step = 2;
     if(N >= 128) step = 4;
@@ -837,9 +583,12 @@
   function paintCell(x, y, col){
     if(x < 0 || y < 0 || x >= N || y >= N) return;
     const idx = y*N + x;
+
+    // record action patch
     const prev = pixels[idx];
     if(prev === col) return;
 
+    // for current stroke: store each idx once
     if(currentAction){
       if(!currentAction.seen.has(idx)){
         currentAction.seen.add(idx);
@@ -851,6 +600,7 @@
 
     pixels[idx] = col;
 
+    // draw only this cell
     const size = parseFloat(canvas.style.width) || 600;
     const cs = size / N;
     ctx.fillStyle = '#' + (col>>>0).toString(16).padStart(6,'0');
@@ -879,18 +629,25 @@
 
   function posToCell(e){
     const rect = canvas.getBoundingClientRect();
-    const size = rect.width;
+    const size = rect.width; // CSS px
     const cs = size / N;
     const x = Math.floor((e.clientX - rect.left) / cs);
     const y = Math.floor((e.clientY - rect.top) / cs);
     return { x, y };
   }
 
-  function beginStroke(){ currentAction = { idxs:[], prev:[], next:[], seen: new Set() }; }
+  function beginStroke(){
+    currentAction = { idxs:[], prev:[], next:[], seen: new Set() };
+  }
   function endStroke(){
     if(!currentAction) return;
     if(currentAction.idxs.length){
-      undo.push({ idxs: currentAction.idxs, prev: currentAction.prev, next: currentAction.next });
+      // push to undo stack
+      undo.push({
+        idxs: currentAction.idxs,
+        prev: currentAction.prev,
+        next: currentAction.next
+      });
       if(undo.length > MAX_STACK) undo.shift();
       redo.length = 0;
     }
@@ -900,7 +657,9 @@
   function doUndo(){
     const a = undo.pop();
     if(!a) return;
-    for(let i=0;i<a.idxs.length;i++) pixels[a.idxs[i]] = a.prev[i];
+    for(let i=0;i<a.idxs.length;i++){
+      pixels[a.idxs[i]] = a.prev[i];
+    }
     redo.push(a);
     drawAll();
     toast('Undo', `${a.idxs.length} cells`);
@@ -908,7 +667,9 @@
   function doRedo(){
     const a = redo.pop();
     if(!a) return;
-    for(let i=0;i<a.idxs.length;i++) pixels[a.idxs[i]] = a.next[i];
+    for(let i=0;i<a.idxs.length;i++){
+      pixels[a.idxs[i]] = a.next[i];
+    }
     undo.push(a);
     drawAll();
     toast('Redo', `${a.idxs.length} cells`);
@@ -918,13 +679,18 @@
     const prev = Array.from(pixels);
     pixels.fill(BG);
     drawAll();
-    undo.push({ idxs: prev.map((_,i)=>i), prev, next: Array(prev.length).fill(BG) });
+    undo.push({
+      idxs: prev.map((_,i)=>i),
+      prev: prev,
+      next: Array(prev.length).fill(BG)
+    });
     if(undo.length > MAX_STACK) undo.shift();
     redo.length = 0;
     toast('Clear', 'Canvas reset');
   }
 
   function newCanvas(){
+    // reset stacks and pixels
     undo.length = 0; redo.length = 0;
     pixels = new Uint32Array(N*N);
     pixels.fill(BG);
@@ -934,6 +700,7 @@
   }
 
   function savePNG(){
+    // render to offscreen at higher resolution: each cell = 20px (nice)
     const cellPx = 20;
     const outSize = N * cellPx;
     const off = document.createElement('canvas');
@@ -941,6 +708,7 @@
     off.height = outSize;
     const o = off.getContext('2d', { alpha: false });
 
+    // background
     o.fillStyle = '#' + BG.toString(16).padStart(6,'0');
     o.fillRect(0,0,outSize,outSize);
 
@@ -963,7 +731,13 @@
   }
 
   function exportJSON(){
-    const payload = { app:'Multicolor Square', v:1, N, BG, pixels: Array.from(pixels) };
+    const payload = {
+      app: 'Multicolor Square',
+      v: 1,
+      N,
+      BG,
+      pixels: Array.from(pixels) // simple + portable
+    };
     const blob = new Blob([JSON.stringify(payload)], { type:'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -979,13 +753,16 @@
       const text = await file.text();
       const data = JSON.parse(text);
       if(!data || data.app !== 'Multicolor Square' || !Number.isFinite(data.N) || !Array.isArray(data.pixels)){
-        toast('Import', 'Invalid file'); return;
+        toast('Import', 'Invalid file');
+        return;
       }
       N = clamp(data.N|0, 16, 160);
       gridSlider.value = String(N);
       pixels = new Uint32Array(N*N);
       const arr = data.pixels;
-      for(let i=0;i<pixels.length;i++) pixels[i] = (arr[i] >>> 0) & 0xFFFFFF;
+      for(let i=0;i<pixels.length;i++){
+        pixels[i] = (arr[i] >>> 0) & 0xFFFFFF;
+      }
       undo.length = 0; redo.length = 0;
       updateUI();
       setupCanvases();
@@ -995,14 +772,15 @@
     }
   }
 
-  // Pointer drawing
+  // pointer events for draw
   canvas.addEventListener('pointerdown', (e) => {
     canvas.setPointerCapture(e.pointerId);
     drawing = true;
     lastCell = -1;
     beginStroke();
     const {x,y} = posToCell(e);
-    lastCell = y*N + x;
+    const cell = y*N + x;
+    lastCell = cell;
     paintBrush(x,y);
   });
 
@@ -1015,15 +793,32 @@
     paintBrush(x,y);
   });
 
-  const end = () => { if(!drawing) return; drawing = false; lastCell = -1; endStroke(); };
+  const end = () => {
+    if(!drawing) return;
+    drawing = false;
+    lastCell = -1;
+    endStroke();
+  };
   canvas.addEventListener('pointerup', end);
   canvas.addEventListener('pointercancel', end);
+  canvas.addEventListener('pointerleave', (e) => { /* keep drawing if captured */ });
 
   // Controls
-  gridSlider.addEventListener('input', () => { N = +gridSlider.value; updateUI(); });
-  gridSlider.addEventListener('change', () => { newCanvas(); setupCanvases(); });
+  gridSlider.addEventListener('input', () => {
+    N = +gridSlider.value;
+    updateUI();
+  });
+  gridSlider.addEventListener('change', () => {
+    // resizing grid wipes canvas (kept minimal)
+    newCanvas();
+    setupCanvases();
+  });
 
-  brushSlider.addEventListener('input', () => { brush = +brushSlider.value; updateUI(); });
+  brushSlider.addEventListener('input', () => {
+    brush = +brushSlider.value;
+    updateUI();
+  });
+
   zoomSlider.addEventListener('input', () => {
     zoom = +zoomSlider.value / 100;
     updateUI();
@@ -1032,18 +827,40 @@
 
   colorPicker.addEventListener('input', () => {
     hexOut.textContent = colorPicker.value.toUpperCase();
-    if(eraser){ eraser = false; setSwitch(erSw, eraser); }
+    if(eraser){
+      eraser = false;
+      setSwitch(erSw, eraser);
+    }
   });
 
-  rbSw.addEventListener('click', () => { rainbow = !rainbow; setSwitch(rbSw, rainbow); toast('Rainbow', rainbow ? 'ON' : 'OFF'); });
-  erSw.addEventListener('click', () => { eraser = !eraser; setSwitch(erSw, eraser); toast('Eraser', eraser ? 'ON' : 'OFF'); });
-  glSw.addEventListener('click', () => { showGrid = !showGrid; setSwitch(glSw, showGrid); drawGrid(); toast('Grid lines', showGrid ? 'ON' : 'OFF'); });
+  rbSw.addEventListener('click', () => {
+    rainbow = !rainbow;
+    setSwitch(rbSw, rainbow);
+    toast('Rainbow', rainbow ? 'ON' : 'OFF');
+  });
 
-  newBtn.addEventListener('click', () => { if(confirm('New canvas?')) newCanvas(); });
+  erSw.addEventListener('click', () => {
+    eraser = !eraser;
+    setSwitch(erSw, eraser);
+    toast('Eraser', eraser ? 'ON' : 'OFF');
+  });
+
+  glSw.addEventListener('click', () => {
+    showGrid = !showGrid;
+    setSwitch(glSw, showGrid);
+    drawGrid();
+    toast('Grid lines', showGrid ? 'ON' : 'OFF');
+  });
+
+  newBtn.addEventListener('click', () => {
+    if(confirm('New canvas?')) newCanvas();
+  });
+
   undoBtn.addEventListener('click', doUndo);
   redoBtn.addEventListener('click', doRedo);
   clearBtn.addEventListener('click', () => { if(confirm('Clear?')) clearAll(); });
   saveBtn.addEventListener('click', savePNG);
+
   exportBtn.addEventListener('click', exportJSON);
   importBtn.addEventListener('click', () => fileIn.click());
   fileIn.addEventListener('change', () => {
@@ -1052,7 +869,7 @@
     fileIn.value = '';
   });
 
-  // Hotkeys
+  // Hotkeys (minimal)
   window.addEventListener('keydown', (e) => {
     const mod = e.ctrlKey || e.metaKey;
     if(mod && e.key.toLowerCase() === 'z'){ e.preventDefault(); doUndo(); }
@@ -1064,6 +881,7 @@
   // Init
   updateUI();
   setupCanvases();
+
   let resizeT = 0;
   window.addEventListener('resize', () => {
     clearTimeout(resizeT);
